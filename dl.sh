@@ -45,6 +45,9 @@ for n in $(seq 1 "$COUNT"); do
   echo
   echo "${C}📥 [$i/$COUNT] $link${N}"
 
+  size=$(wget --spider -S --no-proxy "$link" 2>&1 | awk 'tolower($1)=="content-length:"{print $2}' | tail -1 | tr -d '\r')
+  [[ -n "$size" ]] && echo "${C}📦 Size: $(numfmt --to=iec --round=nearest "$size")${N}"
+
   if wget --no-proxy -c -q --show-progress --tries=20 --retry-connrefused \
           --waitretry=5 --timeout=30 --progress=bar:force "$link"; then
     echo "${G}✅ E$i done${N}"
