@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 if [[ -t 1 ]]; then
-  G=$'\e[32m'; R=$'\e[31m'; Y=$'\e[33m'; C=$'\e[36m'; B=$'\e[1m'; N=$'\e[0m'
+  G=$'\e[32m'; R=$'\e[31m'; Y=$'\e[33m'; C=$'\e[36m'; M=$'\e[35m'; B=$'\e[1m'; N=$'\e[0m'
 else
-  G=; R=; Y=; C=; B=; N=
+  G=; R=; Y=; C=; M=; B=; N=
 fi
 
 usage() {
@@ -46,7 +46,7 @@ for n in $(seq 1 "$COUNT"); do
   echo "${C}📥 [$i/$COUNT] $link${N}"
 
   size=$(wget --spider -S --no-proxy "$link" 2>&1 | awk 'tolower($1)=="content-length:"{print $2}' | tail -1 | tr -d '\r')
-  [[ -n "$size" ]] && echo "${C}📦 Size: $(numfmt --to=iec --round=nearest "$size")${N}"
+  [[ -n "$size" ]] && echo "${M}📦 Size: $(numfmt --to=iec --round=nearest "$size")${N}"
 
   if wget --no-proxy -c -q --show-progress --tries=20 --retry-connrefused \
           --waitretry=5 --timeout=30 --progress=bar:force "$link"; then
